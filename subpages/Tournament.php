@@ -7,16 +7,16 @@ $db_name = "turniermanagment";
 if (isset( $_POST['add'] ))
 {
     // Verbindung oeffnen und Datenbank auswaehlen
-    $connect = mysql_connect( $db_host, $db_user, $db_pass ) or die( "Der Datenbankserver konnte nicht erreicht werden!" );
+    $connect = mysqli_connect( $db_host, $db_user, $db_pass ) or die( "Der Datenbankserver konnte nicht erreicht werden!" );
     if ($connect)
     {
-        mysql_select_db( $db_name) or die("Die Datenbank wurde nicht erreicht");
+        mysqli_select_db( $connect , $db_name) or die("Die Datenbank wurde nicht erreicht");
     }
     //Zeichensatz auf utf8 umstellen
-    mysql_query("SET NAMES UTF8");
+    mysqli_query($connect,"SET NAMES UTF8");
 
         // Inhalte der Felder aus POST holen
-    $iddump = mysql_fetch_assoc(mysql_query("SELECT MAX(`ID`)+1 AS `newid` FROM `turnier`"));
+    $iddump = mysqli_fetch_assoc(mysqli_query($connect, "SELECT MAX(`ID`)+1 AS `newid` FROM `turnier`"));
     $id = $iddump["newid"];
     $name = $_POST['name'];
     $ausschreibung = $_POST['link'];
@@ -29,69 +29,40 @@ if (isset( $_POST['add'] ))
     {
         $pflicht = (int) '0';
     }
-    echo "Die nächste ID lautet: $id <br>";
-    // Anfrage zusammenstellen der an die DB geschickt werden soll
+
+    // Anfrage zusammenstellen die an die DB geschickt werden soll
     $addtournament = "INSERT INTO `turnier` (`ID` , `Name` , `Ausschreibung` , `Pflichtturnier` , `Datum`)
                     VALUES('$id' , '$name', '$ausschreibung', '$pflicht', '$datum')";
     // Schickt die Anfrage an die DB und schreibt die Daten in die Tabelle
-    $add = mysql_query( $addtournament );
+    $add = mysqli_query($connect, $addtournament );
     // Pruefen ob der neue Datensatz tatsaechlich eingefuegt wurde
-    if (mysql_affected_rows() == 1)
+    if (mysqli_affected_rows($connect) == 1)
     {
         echo "$name wurde erfolgreich hinzugef&uuml;gt!";
     }
     else
     {
-        echo "Das Hinzuf&uuml;gen von $name schlug fehl". mysql_error($connect);
+        echo "Das Hinzuf&uuml;gen von $name schlug fehl". mysqli_error($connect);
     }
-//Schreibe Altersklassen    
-    if (isset($_POST['schueler']))
+ 
+ //Erkenne Altersklassen
+$AKobjects = array ("nothing" , "schueler", "bjg" , "ajg" , "jun" , "aktive" , "senioren"  ); //Um mit den IDs der Datenbank synchron zu bleiben "nothing"
+$Waobjects = array ("saebel", "florett");
+for ($i = 1; $i <= 6; $i++) {
+    if (isset($_POST["$AKobjects[$i]"]))
     {
-        $akschueler = "INSERT INTO `altersklassen` (`TurnierID` , `JahrgID`) VALUES ('$id' , '1') ";
-        $add = mysql_query($akschueler);
+        $ak = "INSERT INTO `altersklassen` (`TurnierID` , `JahrgID`) VALUES ('$id' , '$i') ";
+        $add = mysqli_query($connect, $ak);
     }
+}
 
-    if (isset($_POST['bjg']))
-    {
-        $akbjg = "INSERT INTO `altersklassen` (`TurnierID` , `JahrgID`) VALUES ('$id' , '2') ";
-        $add = mysql_query($akbjg);
-    }
-
-    if (isset($_POST['ajg']))
-    {
-        $akajg = "INSERT INTO `altersklassen` (`TurnierID` , `JahrgID`) VALUES ('$id' , '3') ";
-        $add = mysql_query($akajg);
-    }
-
-    if (isset($_POST['jun']))
-    {
-        $akjun = "INSERT INTO `altersklassen` (`TurnierID` , `JahrgID`) VALUES ('$id' , '4') ";
-        $add = mysql_query($akjun);
-    }
-
-    if (isset($_POST['aktive']))
-    {
-        $akaktive = "INSERT INTO `altersklassen` (`TurnierID` , `JahrgID`) VALUES ('$id' , '5') ";
-        $add = mysql_query($akaktive);
-    }
-
-    if (isset($_POST['senioren']))
-    {
-        $aksenioren = "INSERT INTO `altersklassen` (`TurnierID` , `JahrgID`) VALUES ('$id' , '6') ";
-        $add = mysql_query($aksenioren);
-    }
-
- //Schreibe Waffen 
-    if (isset($_POST['saebel']))
-    {
-        $waffesa = "INSERT INTO `waffetur` (`TurnierID` , `WaffeID`) VALUES ('$id' , '1') ";
-        $add = mysql_query($waffesa);
-    }
-    
-    if (isset($_POST['saebel']))
-    {
-        $waffefl = "INSERT INTO `waffetur` (`TurnierID` , `WaffeID`) VALUES ('$id' , '2') ";
-        $add = mysql_query($waffefl);
+//Schreibe Waffen 
+    for ( $i=0; $i <= 1; $i++){
+        if (isset($_POST["$Waobjects[$i]"]))
+        {
+            $waffe = "INSERT INTO `waffetur` (`TurnierID` , `WaffeID`) VALUES ('$id' , '$i') ";
+            $add = mysqli_query($connect, $waffe);
+        }
     }
 }
 
@@ -100,19 +71,29 @@ if (isset( $_POST['add'] ))
 
 
 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" name="formular" id="formular" accept-charset="utf-8">
-<p>Name des Turniers <input type="text" name="name" id="name" /><br /><br /></p>
-<p>Link zur Ausschreibung: <input type="text" name="link" id="link" /><br /><br /></p>
-<p>Datum: <input type="text" id="datepicker" name="datepicker"></p>
-<p>Altersklasse(n): 
-Schüler:<input type="checkbox" name="schueler" value="0"> 
-B-Jugend:<input type="checkbox" name="bjg" value="0"> 
-A-Jugend<input type="checkbox" name="ajg" value="0"> 
-Junioren:<input type="checkbox" name="jun" value="0"> 
-Aktive:<input type="checkbox" name="aktive" value="0"> 
-Senioren:<input type="checkbox" name="senioren" value="0"> </p>
-<p>Waffe(n):
-S&auml;bel: <input type="checkbox" name="saebel" value="0">
-Florett: <input type="checkbox" name="florett" value="0">
-</p>
-<p>Pflichtturnier: <input type="checkbox" name="pflichtturnier" value="0"></p>
-<input type="submit" name="add" id="add" value="Abschicken" />
+<fieldset>
+    <p><b><label style="display:block;">Name des Turniers:</label></b> <input style="display:block;" type="text" name="name" id="name" /></p>
+    <p><b><label style="display:block;">Link zur Ausschreibung:</label></b> <input style="display:block;" type="text" name="link" id="link" /></p>
+    <p><b><label style="display:block;">Datum:</label></b> <input style="display:block;" type="text" id="datepicker" name="datepicker"></p>
+    <p><b><label style="display:block;">Altersklasse(n):</label></b>
+       <fieldset>
+        <div style="float: left;">
+        <label style="display:block;">Schüler: </label><input style="display:block;" type="checkbox" name="schueler" value="0"><br>
+        <label style="display:block;">B-Jugend: </label><input style="display:block;" type="checkbox" name="bjg" value="0"><br>
+        <label style="display:block;">A-Jugend: </label><input style="display:block;" type="checkbox" name="ajg" value="0">
+        </div>
+        
+        <div style="float: center; margin-left: 150px;" >
+        <label style="display:block;">Junioren: </label><input style="display:block;" type="checkbox" name="jun" value="0"><br>
+        <label style="display:block;">Aktive: </label><input style="display:block;" type="checkbox" name="aktive" value="0"> <br>
+        <label style="display:block;">Senioren: </label><input style="display:block;" type="checkbox" name="senioren" value="0"> </p>
+        </div>
+       </fieldset>
+    <p><b><label style="display:block;">Waffe(n):</label></b>
+        <fieldset>
+         <div style="float: left;"><label style="display:block;">S&auml;bel: </label> <input style="display:block;" type="checkbox" name="saebel" value="0"><br></div>
+         <div style="float: center; margin-left: 150px;" ><label style="display:block;">Florett: </label> <input style="display:block;" type="checkbox" name="florett" value="0"></div>
+        </fieldset></p>
+    <p><b><label style="display:block;">Pflichtturnier:</label></b><fieldset> <label style="display:block;">Anklicken für "Ja"</label> <input style="display:block;" type="checkbox" name="pflichtturnier" value="0"></p></fieldset>
+    <input type="submit" name="add" id="add" value="Abschicken" />
+</fieldset>
