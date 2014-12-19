@@ -101,10 +101,9 @@ for ($i = 0; $i <= 5; $i++) {
     }
 }
 foreach ($errors as $value) {
-    echo "<b>$value </b><br>"; //Rückgabe der Fehlermeldungen
+    echo "<div class='ui-widget'><div class='ui-state-error ui-corner-all' style='padding: 0 .7em;'><p><span class='ui-icon ui-icon-alert' style='float: left; margin-right: .3em;'></span><strong>Achtung: </strong>$value</p></div></div><br>"; //Rückgabe der Fehlermeldungen
 }
 ?>
-
 
 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" name="formular" id="formular" accept-charset="utf-8">
 <fieldset>
@@ -131,5 +130,5 @@ foreach ($errors as $value) {
          <div style="float: center; margin-left: 150px;" ><label style="display:block;">Florett: </label> <input style="display:block;" type="checkbox" name="florett" value="0"></div>
         </fieldset></p>
     <p><b><label style="display:block;">Pflichtturnier:</label></b><fieldset> <label style="display:block;">Anklicken für "Ja"</label> <input style="display:block;" type="checkbox" name="pflichtturnier" value="0"></p></fieldset>
-    <input type="submit" name="add" id="add" value="Abschicken" />
+    <input type="submit" name="add" id="add" value="Abschicken" /></p>
 </fieldset>
