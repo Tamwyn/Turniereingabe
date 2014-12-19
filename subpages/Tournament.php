@@ -4,7 +4,44 @@ $db_user = "root";
 $db_pass = "";
 $db_name = "turniermanagment";
 
+$errors = array();
+$AKobjects = array ("schueler", "bjg" , "ajg" , "jun" , "aktive" , "senioren"  ); //Um mit den IDs der Datenbank synchron zu bleiben "nothing"
+$Waobjects = array ("saebel", "florett");
+$counter = 0; //Ein Zähler um leere Checkboxen aufzufinden
+//Ueberpruefe Einkommende Daten
 if (isset( $_POST['add'] ))
+{
+    if (empty($_POST['name']))
+        $errors['name'] = "Ein Name fehlt!";
+
+    if (empty($_POST['link']))
+        $errors['link'] = "Eine Ausschreibung fehlt!";
+
+    if (empty($_POST['datepicker']))
+        $errors['datum'] = "Ein Datum fehlt!";
+
+    //Pruefe ob mindstens eine Altersklasse angegeben wurde
+    foreach ($AKobjects as $value) {
+        if ( isset($_POST["$value"]))
+            $counter++;
+    }
+    if ($counter == 0) {
+        $errors['altersklassen'] = "Es muss mindstens eine Altersklasse angegeben werden!";
+    }
+
+    //Pruefen ob mindestens eine Waffe angegeben wurde
+    $counter = 0;
+    foreach ($Waobjects as $value) {
+        if ( isset($_POST["$value"]))
+            $counter++;
+    }
+    if ($counter == 0) {
+        $errors['Waffe'] = "Es muss mindstens eine Waffe angegeben werden!";
+    }
+}
+
+
+if (empty($errors) && isset( $_POST['add']) ) //Wenn keine Fehler gefunden werden konnten UND eine Anfrage vorhanden ist schreibe in die Datenbank
 {
     // Verbindung oeffnen und Datenbank auswaehlen
     $connect = mysqli_connect( $db_host, $db_user, $db_pass ) or die( "Der Datenbankserver konnte nicht erreicht werden!" );
@@ -46,9 +83,7 @@ if (isset( $_POST['add'] ))
     }
  
  //Erkenne Altersklassen
-$AKobjects = array ("nothing" , "schueler", "bjg" , "ajg" , "jun" , "aktive" , "senioren"  ); //Um mit den IDs der Datenbank synchron zu bleiben "nothing"
-$Waobjects = array ("saebel", "florett");
-for ($i = 1; $i <= 6; $i++) {
+for ($i = 0; $i <= 5; $i++) {
     if (isset($_POST["$AKobjects[$i]"]))
     {
         $ak = "INSERT INTO `altersklassen` (`TurnierID` , `JahrgID`) VALUES ('$id' , '$i') ";
@@ -65,8 +100,9 @@ for ($i = 1; $i <= 6; $i++) {
         }
     }
 }
-
-
+foreach ($errors as $value) {
+    echo "<b>$value </b><br>"; //Rückgabe der Fehlermeldungen
+}
 ?>
 
 

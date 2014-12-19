@@ -5,7 +5,7 @@
 	<link href="libs/jquery-ui.css" rel="stylesheet">
 	<style>
 	body{
-		font: 62.5% "Trebuchet MS", sans-serif;
+		font: 70% "Trebuchet MS", sans-serif;
 		margin: 50px;
 	}
 	.demoHeaders {
