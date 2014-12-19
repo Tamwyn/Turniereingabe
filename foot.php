@@ -11,9 +11,10 @@ $( "#tabs" ).tabs();
 
 
 $( "#datepicker" ).datepicker({
-	inline: true
+      numberOfMonths: 3,
+      showButtonPanel: true
 });
-
+$('#datepicker').datepicker('option', 'dateFormat', 'yy-mm-dd'); //Set date format for mysql
 
 $( "#tooltip" ).tooltip();
 

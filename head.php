@@ -1,7 +1,7 @@
 <html lang="us">
 <head>
 	<meta charset="utf-8">
-	<title>Ranglisten Dateneingabe</title>
+	<title>FC Luetjensee | Turniermanagment</title>
 	<link href="libs/jquery-ui.css" rel="stylesheet">
 	<style>
 	body{
