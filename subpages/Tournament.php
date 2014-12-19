@@ -18,9 +18,9 @@ if (isset( $_POST['add'] ))
         // Inhalte der Felder aus POST holen
     $iddump = mysqli_fetch_assoc(mysqli_query($connect, "SELECT MAX(`ID`)+1 AS `newid` FROM `turnier`"));
     $id = $iddump["newid"];
-    $name = $_POST['name'];
-    $ausschreibung = $_POST['link'];
-    $datum = $_POST['datepicker'];
+    $name = mysqli_real_escape_string($connect, $_POST['name']);
+    $ausschreibung = mysqli_real_escape_string($connect, $_POST['link']);
+    $datum = mysqli_real_escape_string($connect, $_POST['datepicker']);
     if (isset($_POST['pflichtturnier']))
     {
         $pflicht = (int) '1';
