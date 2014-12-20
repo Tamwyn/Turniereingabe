@@ -20,13 +20,16 @@ if (isset( $_POST['add'] ))
     if (empty($_POST['datepicker']))
         $errors['datum'] = "Ein Datum fehlt!";
 
+    if (empty($_POST['ort']))
+        $errors['ort'] = "Ein Veranstaltungsort fehlt!";
+
     //Pruefe ob mindstens eine Altersklasse angegeben wurde
     foreach ($AKobjects as $value) {
         if ( isset($_POST["$value"]))
             $counter++;
     }
     if ($counter == 0) {
-        $errors['altersklassen'] = "Es muss mindstens eine Altersklasse angegeben werden!";
+        $errors['altersklassen'] = "Es muss mindestens eine Altersklasse angegeben werden!";
     }
 
     //Pruefen ob mindestens eine Waffe angegeben wurde
@@ -36,7 +39,7 @@ if (isset( $_POST['add'] ))
             $counter++;
     }
     if ($counter == 0) {
-        $errors['Waffe'] = "Es muss mindstens eine Waffe angegeben werden!";
+        $errors['Waffe'] = "Es muss mindestens eine Waffe angegeben werden!";
     }
 }
 
@@ -58,6 +61,7 @@ if (empty($errors) && isset( $_POST['add']) ) //Wenn keine Fehler gefunden werde
     $name = mysqli_real_escape_string($connect, $_POST['name']);
     $ausschreibung = mysqli_real_escape_string($connect, $_POST['link']);
     $datum = mysqli_real_escape_string($connect, $_POST['datepicker']);
+    $ort = mysqli_real_escape_string($connect, $_POST['ort']);
     if (isset($_POST['pflichtturnier']))
     {
         $pflicht = (int) '1';
@@ -68,8 +72,8 @@ if (empty($errors) && isset( $_POST['add']) ) //Wenn keine Fehler gefunden werde
     }
 
     // Anfrage zusammenstellen die an die DB geschickt werden soll
-    $addtournament = "INSERT INTO `turnier` (`ID` , `Name` , `Ausschreibung` , `Pflichtturnier` , `Datum`)
-                    VALUES('$id' , '$name', '$ausschreibung', '$pflicht', '$datum')";
+    $addtournament = "INSERT INTO `turnier` (`ID` , `Name` , `Ausschreibung` , `Pflichtturnier` , `Datum` , `Ort`)
+                    VALUES('$id' , '$name', '$ausschreibung', '$pflicht', '$datum' , '$ort')";
     // Schickt die Anfrage an die DB und schreibt die Daten in die Tabelle
     $add = mysqli_query($connect, $addtournament );
     // Pruefen ob der neue Datensatz tatsaechlich eingefuegt wurde
@@ -109,6 +113,7 @@ foreach ($errors as $value) {
 <fieldset>
     <p><b><label style="display:block;">Name des Turniers:</label></b> <input style="display:block;" type="text" name="name" id="name" /></p>
     <p><b><label style="display:block;">Link zur Ausschreibung:</label></b> <input style="display:block;" type="text" name="link" id="link" /></p>
+    <p><b><label style="display:block;">Veranstaltungsort:</label></b> <input style="display:block;" type="text" name="ort" id="ort" /></p>
     <p><b><label style="display:block;">Datum:</label></b> <input style="display:block;" type="text" id="datepicker" name="datepicker"></p>
     <p><b><label style="display:block;">Altersklasse(n):</label></b>
        <fieldset>
