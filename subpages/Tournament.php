@@ -5,9 +5,10 @@ $db_pass = "";
 $db_name = "turniermanagment";
 
 $errors = array();
-$AKobjects = array ("schueler", "bjg" , "ajg" , "jun" , "aktive" , "senioren"  ); //Um mit den IDs der Datenbank synchron zu bleiben "nothing"
+$AKobjects = array ("schueler", "bjg" , "ajg" , "jun" , "aktive" , "senioren"  );//Die Namen der Checkboxen fuer Kontrollen
 $Waobjects = array ("saebel", "florett");
 $counter = 0; //Ein Zähler um leere Checkboxen aufzufinden
+
 //Ueberpruefe Einkommende Daten
 if (isset( $_POST['add'] ))
 {
@@ -27,26 +28,26 @@ if (isset( $_POST['add'] ))
     foreach ($AKobjects as $value) {
         if ( isset($_POST["$value"]))
             $counter++;
-    }
+    } //Wenn keine Altersklase angegeben wurde, ist der Counter nun 0, beschwere dich
     if ($counter == 0) {
         $errors['altersklassen'] = "Es muss mindestens eine Altersklasse angegeben werden!";
     }
 
     //Pruefen ob mindestens eine Waffe angegeben wurde
-    $counter = 0;
+    $counter = 0;//Counter zuruecksetzen fuer die Waffe
     foreach ($Waobjects as $value) {
         if ( isset($_POST["$value"]))
             $counter++;
-    }
+    }//Analog zu Altersklasse
     if ($counter == 0) {
         $errors['Waffe'] = "Es muss mindestens eine Waffe angegeben werden!";
     }
 }
 
 
-if (empty($errors) && isset( $_POST['add']) ) //Wenn keine Fehler gefunden werden konnten UND eine Anfrage vorhanden ist schreibe in die Datenbank
+if (empty($errors) && isset( $_POST['add']) ) //Wenn keine Fehler gefunden werden konnten UND eine Anfrage vorhanden ist schreibe in die Datenbank, ohne && kommt es dazu, dass dieser Block bei Seitenaufruf ausgefuehrt wird
 {
-    // Verbindung oeffnen und Datenbank auswaehlen
+    // Verbindung oeffnen und Datenbank auswaehlen oder eine Fehlermeldung zurueckgeben
     $connect = mysqli_connect( $db_host, $db_user, $db_pass ) or die( "Der Datenbankserver konnte nicht erreicht werden!" );
     if ($connect)
     {
@@ -55,14 +56,14 @@ if (empty($errors) && isset( $_POST['add']) ) //Wenn keine Fehler gefunden werde
     //Zeichensatz auf utf8 umstellen
     mysqli_query($connect,"SET NAMES UTF8");
 
-        // Inhalte der Felder aus POST holen
+        // Inhalte der Felder aus POST holen und aus Sicherheitsgruenden escapen
     $iddump = mysqli_fetch_assoc(mysqli_query($connect, "SELECT MAX(`ID`)+1 AS `newid` FROM `turnier`"));
-    $id = $iddump["newid"];
+    $id = $iddump["newid"]; //der Umweg aufgrund des Rueckgabeformats von mysqli
     $name = mysqli_real_escape_string($connect, $_POST['name']);
     $ausschreibung = mysqli_real_escape_string($connect, $_POST['link']);
     $datum = mysqli_real_escape_string($connect, $_POST['datepicker']);
     $ort = mysqli_real_escape_string($connect, $_POST['ort']);
-    if (isset($_POST['pflichtturnier']))
+    if (isset($_POST['pflichtturnier'])) //Finde heraus, ob es ein Pflichtturnier ist checked=> ja --> 1 sonst 0
     {
         $pflicht = (int) '1';
     }
@@ -79,23 +80,23 @@ if (empty($errors) && isset( $_POST['add']) ) //Wenn keine Fehler gefunden werde
     // Pruefen ob der neue Datensatz tatsaechlich eingefuegt wurde
     if (mysqli_affected_rows($connect) == 1)
     {
-        echo "$name wurde erfolgreich hinzugef&uuml;gt!";
+        echo "$name wurde erfolgreich hinzugef&uuml;gt!"; //Gib zurueck, dass dieses Turnier hinzugefuegt wurde
     }
     else
     {
-        echo "Das Hinzuf&uuml;gen von $name schlug fehl". mysqli_error($connect);
+        echo "Das Hinzuf&uuml;gen von $name schlug fehl". mysqli_error($connect); //Gib eine Fehlermeldung zurueck
     }
  
- //Erkenne Altersklassen
-for ($i = 0; $i <= 5; $i++) {
-    if (isset($_POST["$AKobjects[$i]"]))
-    {
-        $ak = "INSERT INTO `altersklassen` (`TurnierID` , `JahrgID`) VALUES ('$id' , '$i') ";
-        $add = mysqli_query($connect, $ak);
+    //Schreibe gewaehlte Altersklassen
+    for ($i = 0; $i <= 5; $i++) {
+        if (isset($_POST["$AKobjects[$i]"]))
+        {
+            $ak = "INSERT INTO `altersklassen` (`TurnierID` , `JahrgID`) VALUES ('$id' , '$i') ";
+            $add = mysqli_query($connect, $ak);
+        }
     }
-}
 
-//Schreibe Waffen 
+    //Schreibe Waffen 
     for ( $i=0; $i <= 1; $i++){
         if (isset($_POST["$Waobjects[$i]"]))
         {
@@ -104,10 +105,12 @@ for ($i = 0; $i <= 5; $i++) {
         }
     }
 }
-foreach ($errors as $value) {
+
+foreach ($errors as $value) { //Gib die zuvor gesammelten Fehlermeldungen Grafisch aufgewertet zurueck
     echo "<div class='ui-widget'><div class='ui-state-error ui-corner-all' style='padding: 0 .7em;'><p><span class='ui-icon ui-icon-alert' style='float: left; margin-right: .3em;'></span><strong>Achtung: </strong>$value</p></div></div><br>"; //Rückgabe der Fehlermeldungen
 }
 ?>
+
 
 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" name="formular" id="formular" accept-charset="utf-8">
 <fieldset>
