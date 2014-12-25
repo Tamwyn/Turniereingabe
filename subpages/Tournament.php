@@ -84,7 +84,7 @@ if (empty($errors) && isset( $_POST['add']) ) //Wenn keine Fehler gefunden werde
     }
     else
     {
-        echo "<div class='ui-widget'><div class='ui-state-error ui-corner-all' style='padding: 0 .7em;'><p><span class='ui-icon ui-icon-alert' style='float: left; margin-right: .3em;'></span><strong>Achtung: </strong>Das Turnier konnte nicht hinzugef&uuml;gt werde" . mysqli_error($connect) . "</p></div></div><br>"; //Gib eine Fehlermeldung zurueck
+        echo "<div class='ui-widget'><div class='ui-state-error ui-corner-all' style='padding: 0 .7em;'><p><span class='ui-icon ui-icon-alert' style='float: left; margin-right: .3em;'></span><strong>Achtung: </strong>Das Turnier konnte nicht hinzugef&uuml;gt werden" . mysqli_error($connect) . "</p></div></div><br>"; //Gib eine Fehlermeldung zurueck
     }
  
     //Schreibe gewaehlte Altersklassen
