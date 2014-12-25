@@ -1,7 +1,7 @@
 <html lang="us">
 <head>
 	<meta charset="utf-8">
-	<title>FC Luetjensee | Turniermanagment</title>
+	<title>FC L&uuml;tjensee | Turniermanagment</title>
 	<link href="libs/jquery-ui.css" rel="stylesheet">
 	<style>
 	body{

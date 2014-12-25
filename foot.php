@@ -2,7 +2,7 @@
 <script src="libs/jquery-ui.js"></script>
 <script>
 
-<!--Buttons zum Bestätigen To be remodeled-->
+<!--Buttons zum Bestaetigen-->
 $( "input[type=submit], a, button" ).button();
 
 

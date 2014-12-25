@@ -25,17 +25,14 @@ if (isset( $_POST['eintragen'] ))
             $counter++;
     }
     if ($counter == 0) {
-        $errors['Waffe'] = "Es muss mindstens eine Waffe angegeben werden!";
+        $errors['Waffe'] = "Es muss mindstens eine Waffe angegeben werden!"; //Beschwere dich ueber die Fehlende Angabe einer Waffe
     }
 }
 
 
-if (empty($errors) && isset( $_POST['eintragen']) )
+if (empty($errors) && isset( $_POST['eintragen']) )  //Wenn keine Fehler gefunden werden konnten UND eine Anfrage vorhanden ist schreibe in die Datenbank, ohne && kommt es dazu, dass dieser Block bei Seitenaufruf ausgefuehrt wird
 {
-    // Maskierende Slashes aus POST entfernen
-    //$_POST = get_magic_quotes_gpc() ? array_map( 'stripslashes', $_POST ) : $_POST;
-    
-    // Inhalte der Felder aus POST holen
+    // Inhalte der Felder aus POST holen und escapen
     $vorname = mysqli_real_escape_string($_POST['vorname']);
     $nachname = mysqli_real_escape_string($_POST['nachname']);
     $jahrgang = (int) $_POST['jahrgang'];
@@ -65,7 +62,7 @@ if (empty($errors) && isset( $_POST['eintragen']) )
         echo "Das Hinzuf&uuml;gen von $vorname $nachname schlug fehl";
     }
 }
-foreach ($errors as $value) {
+foreach ($errors as $value) { //Fehlermeldungen Grafisch aufgewertet zurueck geben
     echo "<div class='ui-widget'><div class='ui-state-error ui-corner-all' style='padding: 0 .7em;'><p><span class='ui-icon ui-icon-alert' style='float: left; margin-right: .3em;'></span><strong>Achtung: </strong>$value</p></div></div><br>"; //Rückgabe der Fehlermeldungen
 }
 ?>
