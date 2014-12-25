@@ -80,11 +80,11 @@ if (empty($errors) && isset( $_POST['add']) ) //Wenn keine Fehler gefunden werde
     // Pruefen ob der neue Datensatz tatsaechlich eingefuegt wurde
     if (mysqli_affected_rows($connect) == 1)
     {
-        echo "$name wurde erfolgreich hinzugef&uuml;gt!"; //Gib zurueck, dass dieses Turnier hinzugefuegt wurde
+        echo "<div class='ui-widget'><div class='ui-state-highlight ui-corner-all' style='margin-top: 20px; padding: 0 .7em;'><p><span class='ui-icon ui-icon-info' style='float: left; margin-right: .3em;'></span><strong>$name </strong> wurde erfolgreich hinzugef&uuml;gt</p></div></div><br>"; //Gib zurueck, dass dieses Turnier hinzugefuegt wurde
     }
     else
     {
-        echo "Das Hinzuf&uuml;gen von $name schlug fehl". mysqli_error($connect); //Gib eine Fehlermeldung zurueck
+        echo "<div class='ui-widget'><div class='ui-state-error ui-corner-all' style='padding: 0 .7em;'><p><span class='ui-icon ui-icon-alert' style='float: left; margin-right: .3em;'></span><strong>Achtung: </strong>Das Turnier konnte nicht hinzugef&uuml;gt werde" . mysqli_error($connect) . "</p></div></div><br>"; //Gib eine Fehlermeldung zurueck
     }
  
     //Schreibe gewaehlte Altersklassen
