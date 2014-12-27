@@ -137,6 +137,6 @@ foreach ($errors as $value) { //Gib die zuvor gesammelten Fehlermeldungen Grafis
          <div style="float: left;"><label style="display:block;">S&auml;bel: </label> <input style="display:block;" type="checkbox" name="saebel" value="0"><br></div>
          <div style="float: center; margin-left: 150px;" ><label style="display:block;">Florett: </label> <input style="display:block;" type="checkbox" name="florett" value="0"></div>
         </fieldset></p>
-    <p><b><label style="display:block;">Pflichtturnier:</label></b><fieldset> <label style="display:block;">Anklicken für "Ja"</label> <input style="display:block;" type="checkbox" name="pflichtturnier" value="0"></p></fieldset>
+    <p><b><label style="display:block;">Pflichtturnier:</label></b><fieldset> <label style="display:block;">Anklicken für "Ja"</label> <input style="display:block;" type="checkbox" name="pflichtturnier" value="0"></p></fieldset><br>
     <input type="submit" name="add" id="add" value="Abschicken" /></p>
 </fieldset>
