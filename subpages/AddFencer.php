@@ -51,7 +51,6 @@ if (empty($errors) && isset( $_POST['eintragen']) )  //Wenn keine Fehler gefunde
     $iddump = mysqli_fetch_assoc(mysqli_query($connect, "SELECT MAX(`ID`)+1 AS `newid` FROM `fechter`"));
     $id = $iddump["newid"];
     
-    echo "$id";
     
     // Anfrage zusammenstellen der an die DB geschickt werden soll
     $addfencer = "INSERT INTO `fechter` (`ID` , `Nachname` , `Vorname` , `Jahrgang` , `Email`)
