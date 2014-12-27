@@ -1,11 +1,12 @@
 $(document).ready(function() {
+	console.log("Hier bin ich");
 
 	// process the form
 	$('edit-choose').submit(function(event) {
-
+		console.log("Ich wurde angeklickt");
 		// get the form data
 		// there are many ways to get this data using jQuery (you can use the class or id also)
-		var fencerID = document.getElementByID("idLabel").name;
+		var fencerID = document.getElementById("idLabel").name;
 		console.log(fencerID); 
 		// process the form
 		$.ajax({
