@@ -8,9 +8,11 @@
 	<ul>
 		<li><a href="#tabs-1">Turnier hinzufügen</a></li>
 		<li><a href="#tabs-2">Fechter hinzufügen</a></li>
+		<li><a href="#tabs-3">Fechter editieren</a></li>
 	</ul>
 	<div id="tabs-1"><?php include "subpages/Tournament.php" ?></div>
 	<div id="tabs-2"><?php include "subpages/AddFencer.php" ?></div>
+	<div id="tabs-3"><?php include "subpages/EditFencer.php" ?></div>
 </div>
 
 <?php include "foot.php" ?>

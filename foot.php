@@ -1,5 +1,6 @@
 <script src="libs/external/jquery/jquery.js"></script>
 <script src="libs/jquery-ui.js"></script>
+<script src="libs/EditFencer.js"></script><!--Include The ajax script to insert the edit formular-->
 <script>
 
 <!--Buttons zum Bestaetigen-->
