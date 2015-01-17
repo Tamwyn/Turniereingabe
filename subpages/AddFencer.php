@@ -1,7 +1,7 @@
 <?php
 $db_host = "localhost";
 $db_user = "root";
-$db_pass = "";
+$db_pass = "password";
 $db_name = "fechten";
 
 $errors = array();
