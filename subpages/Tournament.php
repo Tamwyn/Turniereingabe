@@ -2,7 +2,7 @@
 $db_host = "localhost";
 $db_user = "root";
 $db_pass = "";
-$db_name = "fechten";
+$db_name = "turniermanagment";
 
 $errors = array();
 $AKobjects = array ("schueler", "bjg" , "ajg" , "jun" , "aktive" , "senioren"  );//Die Namen der Checkboxen fuer Kontrollen
