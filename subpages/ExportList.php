@@ -1,6 +1,6 @@
-<form id="export-form" action="libs/GenerateCSV.php" method="post" accept-charset="utf-8">
+<form id="export-form" onsubmit="libs/GenerateCSV.php" method="post" accept-charset="utf-8">
 <input type="submit" name="export" id="export" value="Turnierliste herunterladen">
-
+</form>
 <!-- Die Bearbeitung dieses Formulars findet in libs/GenerateCSV.php statt -->
 
 <script type="text/javascript">
