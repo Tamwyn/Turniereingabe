@@ -1,5 +1,3 @@
-<script src="libs/external/jquery/jquery.js"></script>
-<script src="libs/jquery-ui.js"></script>
 <script>
 
 <!--Buttons zum Bestaetigen-->

@@ -51,4 +51,7 @@
   	</style>
 <link rel="shortcut icon" href="http://fc-luetjensee.de/wp-content/uploads/favicon.jpg" />  	
 </head>
+
 <body>
+<script src="libs/external/jquery/jquery.js"></script>
+<script src="libs/jquery-ui.js"></script>
